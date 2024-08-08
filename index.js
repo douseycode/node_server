@@ -47,3 +47,35 @@ app.get("/api/get_produit", (req, res) => {
     }
 });
 
+app.put("/api/update/:id", (req,res)=>{
+    let id = req.params.id *1;
+    let produitUpdate = productData.find(p=>p.id === id);
+    let index = productData.indexOf(produitUpdate);
+
+    productData[index] = req.body;
+
+    res.status(200).send({
+        "status": "success",
+        "message": "produit est modifier"
+    });
+
+});
+
+
+app.post("/api/delete/:id", (req, res) => {
+    let id = parseInt(req.params.id, 10); // Assurez-vous que l'id est un nombre
+    let produitIndex = productData.findIndex(p => p.id === id);
+
+    if (produitIndex > -1) {
+        productData.splice(produitIndex, 1);
+        res.status(200).send({
+            "status": "success",
+            "message": "Produit supprimé avec succès"
+        });
+    } else {
+        res.status(404).send({
+            "status": "error",
+            "message": "Produit non trouvé"
+        });
+    }
+});
